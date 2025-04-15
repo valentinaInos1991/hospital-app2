@@ -1,0 +1,13 @@
+[
+    {
+      "email": "admin@hospital.cl",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "email": "user@hospital.cl",
+      "password": "user123",
+      "role": "paciente"
+    }
+  ]
+  
