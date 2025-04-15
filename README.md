@@ -1,78 +1,58 @@
 *Aplicación REACT Hospital Cordis*
 ------------------------------------------------
-* Ejercicio Práctico 1- Módulo 5 (Consumo de Apis en el proyecto del hospital)
-¿Por qué elegí Axios?
-He elegido Axios para realizar las peticiones a la API debido a las siguientes razones:
+* Ejercicio Práctico 2- Módulo 5 (Seguridad en la Web del Hospital)
+#  Sistema Web para Hospital - Proyecto React
 
-*Simplicidad y Eficiencia:*
-Axios ofrece una sintaxis clara y fácil de usar, lo que permite realizar peticiones HTTP con menos esfuerzo y un código más legible en comparación con fetch.
+Este proyecto es una aplicación web desarrollada en React que simula un sistema de gestión para un hospital. Incluye funcionalidades como navegación protegida por roles, autenticación simulada, consumo de una API con datos cifrados, medidas básicas de seguridad y protección contra vulnerabilidades comunes.
 
-*Compatibilidad con Promesas y Async/Await:*
-Soporta de forma nativa promesas, lo que lo hace perfecto para trabajar con async/await, mejorando la legibilidad y manejabilidad del código asíncrono.
+---
 
-*Manejo de Errores Integrado:*
-Axios facilita el manejo de errores ya que incluye herramientas para detectar rápidamente fallos en las peticiones o respuestas sin la necesidad de comprobar manualmente el estado HTTP.
+## Tecnologías Utilizadas
 
-*Soporte para Configuración Global:*
-Permite establecer configuraciones globales, como la URL base de la API o encabezados comunes, optimizando el manejo de múltiples peticiones.
+- React.js
+- React Router DOM
+- JSON local como base de datos simulada
+- Axios para llamadas a API
+- CryptoJS para encriptación
+- LocalStorage para persistencia de sesión
 
-*Transformación Automática de Datos:*
-Axios transforma automáticamente los datos enviados y recibidos en formato JSON, reduciendo la necesidad de configuraciones adicionales.
+---
 
-*Cancelación de Peticiones:*
-Proporciona soporte para cancelar peticiones en curso, lo cual es útil en aplicaciones con componentes dinámicos o dependientes de estados.
+## Funcionalidades por Requisito
 
-* Ejercicio Práctico 2
-1. Manejo del DOM virtual en ReactJs
-En el componente DoctorList se implementó una sección donde se gestiona eficientemente el uso del DOM Virtual con un listado de doctores en donde se actualiza solo si se agrega un doctor nuevo y no se vuelven a cargar los que ya estaban agregados, haciendo más eficiente la renderización de los datos.
+### Paso 3: Autenticación de Usuarios y Roles
 
-2. Explica cómo ReactJS utiliza el DOM virtual para mejorar el rendimiento de la interfaz del hospital (secciones como listado de doctores o servicios).
-Por ejemplo en un listado de doctores que se actualiza al cargar nuevos datos. Si trabajáramos directamente con el DOM, cada vez que llega un doctor nuevo:
-*Reactualizaríamos toda la lista, incluso los elementos que no han cambiado.*
-*Esto causaría un retraso visual notable, especialmente en listas grandes.*
-Con el DOM Virtual:
-* React detecta qué doctor nuevo debe ser agregado al DOM.
-* Solo actualiza ese elemento específico.
-* Esto reduce el tiempo de re-renderizado, haciendo la interfaz más rápida y fluida.
+- Se simulan usuarios en `src/data/users.json` con `email`, `password` y `role`.
+- En el componente `Login.jsx`:
+  - Se valida el usuario.
+  - Se guarda el token simulado y el rol en `localStorage`.
+  - Se redirige según el rol.
+- Las rutas protegidas se manejan mediante `ProtectedRoute.jsx`.
 
-2. Implementa componentDidMount o el uso de useEffect para gestionar la actualización del DOM al cargar los datos.
-En el component DoctorList se usó useEffect para gestionar la actualización del DOM al cargar los datos de la lista de doctores.
+###  Paso 4: Consumo de API con JWT y Encriptación
+
+- Se utiliza Axios desde `api/api.js`.
+- Se envían los datos del login encriptados con AES (usando `CryptoJS`) desde `utils/encryption.js`.
+- El endpoint simulado `/login` recibe la información cifrada.
+
+### Paso 5: Prevención de Vulnerabilidades
+
+- **XSS (Cross Site Scripting)**: No se renderizan datos sin sanitizar desde inputs.
+- **SQL Injection y DoS**: No se permite acceso directo a la API sin token simulado y no hay loops abiertos o procesamiento inseguro.
+
+### Paso 6: Encriptación de Datos
+
+- Se cifran los datos de login (email y contraseña) antes de ser enviados al servidor simulado.
+- Se utiliza AES para cifrado simulado (no real para producción).
+
+---
+
+## Cómo ejecutar el proyecto
+
+1. Clona el repositorio:
+
+```bash
+git clone https://github.com/tuusuario/react-hospital-app.git
 
 
-1. Manejo de Estado con useState
-Se utilizó el hook useState para manejar el estado local del formulario, como el nombre del paciente, la fecha de la cita y el doctor seleccionado.
-El estado inicial se establece utilizando un objeto formData que contiene las propiedades:
-nombre: Representa el nombre del paciente.
-fecha: La fecha seleccionada para la cita.
-doctor: El doctor seleccionado inicialmente o ingresado en el formulario.
 
-2. Uso de Props para Valores Dinámicos
-El formulario recibe el nombre del doctor como una prop (doctorInicial) desde un componente padre.
-Esto permite que el formulario sea reutilizable y que pueda precargar un doctor seleccionado en otra parte de la aplicación.
-El valor recibido se establece como estado inicial en el campo "Doctor".
-
-3. Sincronización de Props con useEffect
-Para garantizar que el formulario se actualice si el doctor seleccionado cambia en el componente principal, se utilizó el hook useEffect.
-Cada vez que la prop doctorInicial cambia, el estado del formulario se sincroniza.
-
-4. Manejo de Eventos en los Inputs
-El formulario utiliza la función handleChange para actualizar el estado a medida que el usuario interactúa con los campos del formulario.
-Se usa el atributo name en cada <input> para identificar qué campo está siendo modificado y actualizar su valor en el estado.
-
-5. Envío del Formulario
-Al enviar el formulario con handleSubmit, se evita el comportamiento predeterminado del navegador utilizando e.preventDefault().
-Luego, los datos ingresados se muestran en la consola y se muestra un mensaje de confirmación al usuario con alert.
-
-6. Estructura JSX del Formulario
-La interfaz visual se creó utilizando JSX. Cada <label> contiene un <input> correspondiente, y los valores son controlados mediante el estado.
-El formulario incluye:
-Campo para el Nombre del Paciente (input tipo texto).
-Campo para la Fecha de la Cita (input tipo fecha).
-Campo para el Doctor (input tipo texto).
-Botón de Enviar que dispara el evento onSubmit.
-
-7. Modularidad y Reutilización
-El formulario AppointmentForm es un componente modular y reutilizable:
-Puede ser utilizado en diferentes secciones de la aplicación.
-Acepta datos iniciales mediante props para mejorar la flexibilidad y personalización.
-El manejo del estado local garantiza que sea independiente y fácil de integrar con otros componentes.
