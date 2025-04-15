@@ -9,6 +9,7 @@ import DoctorList from "./components/DoctorList";
 import React, { useState } from "react";
 import ProtectedRoute from './routes/ProtectedRoute';
 import Login from "./views/Login";
+import Citas from "./views/Citas";
 
 function App() {
   // Estado simulado de autenticación (más adelante lo conectaremos con login real)
@@ -43,22 +44,23 @@ function App() {
           <Route path="/" element={<Home />} />
 
           {/* Rutas protegidas */}
-          <Route 
-            path="/equipo-medico" 
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <EquipoMedico />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/citas" 
-            element={
-              <ProtectedRoute isAuthenticated={isAuthenticated}>
-                <Appointments />
-              </ProtectedRoute>
-            } 
-          />
+  <Route 
+    path="/equipo-medico" 
+    element={
+      <ProtectedRoute isAuthenticated={isAuthenticated}>
+        <EquipoMedico />
+      </ProtectedRoute>
+    } 
+  />
+  <Route 
+    path="/citas" 
+    element={
+      <ProtectedRoute isAuthenticated={isAuthenticated}>
+        <Citas />
+      </ProtectedRoute>
+    } 
+  />
+
 
           {/* Rutas públicas */}
           <Route path="/servicios" element={<Servicios />} />
